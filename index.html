@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday ♥</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- фон: звёзды -->
+<canvas id="stars"></canvas>
+
+<!-- сцена 1: матрица + текст из частиц -->
+<section id="scene-matrix" class="scene">
+  <canvas id="matrix"></canvas>
+  <canvas id="particles"></canvas>
+</section>
+
+<!-- сцена 2: котик -->
+<section id="scene-cat" class="scene hidden">
+  <svg class="cat" viewBox="0 0 220 250" aria-label="Happy Birthday">
+    <g class="candles"></g>
+    <g class="cat-body">
+      <!-- тело -->
+      <ellipse cx="110" cy="205" rx="34" ry="30" fill="#fff" stroke="#3a2b2b" stroke-width="2.5"/>
+      <!-- ножки -->
+      <ellipse cx="96" cy="234" rx="10" ry="6" fill="#fff" stroke="#3a2b2b" stroke-width="2.5"/>
+      <ellipse cx="124" cy="234" rx="10" ry="6" fill="#fff" stroke="#3a2b2b" stroke-width="2.5"/>
+      <!-- гитара -->
+      <g class="guitar">
+        <rect x="118" y="160" width="7" height="46" rx="2" fill="#7a4a24" stroke="#3a2b2b" stroke-width="2" transform="rotate(48 121 183)"/>
+        <ellipse cx="96" cy="210" rx="17" ry="14" fill="#e9a23b" stroke="#3a2b2b" stroke-width="2.5" transform="rotate(-40 96 210)"/>
+        <circle cx="98" cy="208" r="4.5" fill="#3a2b2b"/>
+      </g>
+      <!-- голова -->
+      <g class="cat-head">
+        <path d="M74 150 L80 118 L98 136 Z" fill="#fff" stroke="#3a2b2b" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M146 150 L140 118 L122 136 Z" fill="#fff" stroke="#3a2b2b" stroke-width="2.5" stroke-linejoin="round"/>
+        <ellipse cx="110" cy="160" rx="40" ry="33" fill="#fff" stroke="#3a2b2b" stroke-width="2.5"/>
+        <path d="M88 158 q6 -7 12 0" fill="none" stroke="#3a2b2b" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M120 158 q6 -7 12 0" fill="none" stroke="#3a2b2b" stroke-width="2.6" stroke-linecap="round"/>
+        <ellipse cx="86" cy="170" rx="7" ry="4" fill="#ffb3c7"/>
+        <ellipse cx="134" cy="170" rx="7" ry="4" fill="#ffb3c7"/>
+        <path d="M103 168 q3.5 5 7 0 q3.5 5 7 0" fill="none" stroke="#3a2b2b" stroke-width="2.2" stroke-linecap="round"/>
+        <!-- колпак -->
+        <path d="M100 129 L112 96 L124 129 Z" fill="#ffd23f" stroke="#3a2b2b" stroke-width="2.2" stroke-linejoin="round"/>
+        <circle cx="112" cy="95" r="4" fill="#ff5c8a" stroke="#3a2b2b" stroke-width="1.5"/>
+      </g>
+      <!-- лапка, которая играет -->
+      <ellipse class="paw" cx="104" cy="200" rx="8" ry="6" fill="#fff" stroke="#3a2b2b" stroke-width="2.5"/>
+    </g>
+    <text class="note n1" x="150" y="180">♪</text>
+    <text class="note n2" x="160" y="200">♫</text>
+  </svg>
+</section>
+
+<!-- сцена 3: открытка-книга -->
+<section id="scene-book" class="scene hidden">
+  <div class="message" id="message"><span id="message-text"></span><i class="msg-heart">💕</i></div>
+  <div class="book-wrap">
+    <div class="book" id="book"></div>
+  </div>
+  <div class="hint" id="hint">tap the card</div>
+</section>
+
+<!-- сцена 4: сердце из фото -->
+<section id="scene-heart" class="scene hidden">
+  <div class="heart-stage"><div class="heart3d" id="heart3d"></div></div>
+  <button class="replay" id="replay" aria-label="replay">↻</button>
+</section>
+
+<div class="lightbox" id="lightbox"><img alt=""></div>
+
+<div class="hearts-layer" id="hearts-layer"></div>
+
+<button class="music" id="music" aria-label="music">♪</button>
+
+<!-- стартовый экран (нужен тап, чтобы браузер разрешил музыку) -->
+<div class="start" id="start">
+  <div class="start-heart">♥</div>
+  <p>tap to open</p>
+</div>
+
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
