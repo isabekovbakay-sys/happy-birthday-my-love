@@ -199,12 +199,49 @@
   const msgText = $('#message-text');
   const hint = $('#hint');
 
-  const coverSVG = `
-    <svg viewBox="0 0 100 70" fill="none" stroke="#c9a9a0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M50 30 C42 22 34 26 38 33 C41 38 50 44 50 44 C50 44 59 38 62 33 C66 26 58 22 50 30Z" fill="#f2697a" stroke="#d94d60"/>
-      <path d="M6 66 C10 56 18 48 28 46 C33 45 37 47 41 50 M28 46 C26 41 29 38 33 40 L44 47 M33 40 C33 35 37 34 40 37 L46 44 M41 50 C45 52 48 51 49 48"/>
-      <path d="M94 66 C90 56 82 48 72 46 C67 45 63 47 59 50 M72 46 C74 41 71 38 67 40 L56 47 M67 40 C67 35 63 34 60 37 L54 44 M59 50 C55 52 52 51 51 48"/>
+  // обложка: чёрная открытка, сердце из маленьких сердечек, бант и лента
+  const coverSVG = (() => {
+    let seed = 7;
+    const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const reds = ['#e3262f', '#c8161f', '#f0444a', '#a90f19', '#ff5a5f', '#d81e2a'];
+    const mini = 'M0 -.35C-.5 -1-1.25-.25 0 .85C1.25-.25.5-1 0-.35Z';
+    const inHeart = (x, y) => { const a = x * x + y * y - 1; return a * a * a - x * x * y * y * y <= 0; };
+    let bits = '';
+    // много маленьких сердечек внутри большого сердца
+    for (let n = 0, tries = 0; n < 700 && tries < 30000; tries++) {
+      const x = (rnd() * 2 - 1) * 1.2, y = (rnd() * 2.4 - 1.2);
+      if (!inHeart(x, y)) continue;
+      n++;
+      const s = 1.6 + rnd() * 2.2;
+      bits += `<path d="${mini}" fill="${reds[(rnd() * reds.length) | 0]}" opacity="${(.75 + rnd() * .25).toFixed(2)}" transform="translate(${(52 + x * 30).toFixed(1)} ${(76 - y * 30).toFixed(1)}) rotate(${((rnd() - .5) * 70) | 0}) scale(${s.toFixed(2)})"/>`;
+    }
+    return `
+    <svg viewBox="0 0 100 138" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="rib" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ff5146"/><stop offset=".5" stop-color="#e32a22"/><stop offset="1" stop-color="#b3150f"/>
+        </linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <rect width="100" height="138" fill="#0a0a0c"/>
+      <!-- лента по диагонали в правом нижнем углу -->
+      <path d="M58 140 L102 96 L102 104 L66 140Z" fill="url(#rib)"/>
+      <path d="M58 140 L102 96" stroke="#ff8a80" stroke-width=".5" opacity=".7"/>
+      <g filter="url(#glow)">${bits}</g>
+      <!-- бант -->
+      <g transform="translate(30 36) rotate(-28)">
+        <path d="M0 0 L-6 16 L-2 15 L1 19 L3 3Z" fill="url(#rib)"/>
+        <path d="M0 0 L8 15 L11 12 L14 14 L4 -1Z" fill="url(#rib)"/>
+        <path d="M0 0 C-8 -10 -20 -8 -18 -1 C-16 5 -6 4 0 0Z" fill="url(#rib)" stroke="#8f0f0a" stroke-width=".6"/>
+        <path d="M0 0 C8 -10 20 -8 18 -1 C16 5 6 4 0 0Z" fill="url(#rib)" stroke="#8f0f0a" stroke-width=".6"/>
+        <path d="M-3 -4 C-9 -8 -15 -6 -15 -2" stroke="#ff9e94" stroke-width=".7" fill="none" opacity=".8"/>
+        <path d="M3 -4 C9 -8 15 -6 15 -2" stroke="#ff9e94" stroke-width=".7" fill="none" opacity=".8"/>
+        <ellipse cx="0" cy="0" rx="3.4" ry="3" fill="#d1201a" stroke="#8f0f0a" stroke-width=".6"/>
+      </g>
+      <text x="9" y="128" font-family="'Dancing Script', cursive" font-size="11" fill="#f4eee8">For you</text>
+      <text x="45" y="128" font-size="7" fill="#e3262f">♥</text>
     </svg>`;
+  })();
 
   const faces = [{ cover: true }, ...C.photos.map((src) => ({ src }))];
   if (faces.length % 2) faces.push({ blank: true });
